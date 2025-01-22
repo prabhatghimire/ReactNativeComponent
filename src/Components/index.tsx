@@ -52,7 +52,7 @@ const MyComponent = ({data}: MyComponentProps) => {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      setDataSource(data.filter(item => item.name.includes(searchTerm)));
+      setDataSource(data?.filter(item => item?.name?.includes(searchTerm)));
     }, 1000);
     // need to clear the timeout when the component unmounts
     // or using handleSearch function can also improve the performance
@@ -100,7 +100,7 @@ const MyComponent = ({data}: MyComponentProps) => {
           <TouchableOpacity
             onPress={() => handleSelect(item)}
             style={styles.contentContainer}>
-            <Text style={styles.contentName}>{item.name}</Text>
+            <Text style={styles.contentName}>{item?.name}</Text>
             <Text style={styles.contentSelectedIndicator}>
               {selectedItems.includes(item) ? 'Selected' : 'Not selected'}
             </Text>
