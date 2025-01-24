@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -37,7 +37,7 @@ const MyComponent = ({data}: MyComponentProps) => {
   const [selectedItems, setSelectedItems] = useState<Array<IndivisualItem>>([]);
   const [dataSource, setDataSource] = useState<Array<IndivisualItem>>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const inputRef = useRef(null);
+  // const inputRef = useRef(null);
 
   // handleSearch function to filter the data based on search term implemented using debounce
   const handleSearch = debounce((term: string) => {
@@ -51,14 +51,15 @@ const MyComponent = ({data}: MyComponentProps) => {
   }, [data]);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setDataSource(data?.filter(item => item?.name?.includes(searchTerm)));
-    }, 1000);
+    // const timeoutId = setTimeout(() => {
+    //   setDataSource(data?.filter(item => item?.name?.includes(searchTerm)));
+    // }, 1000);
     // need to clear the timeout when the component unmounts
-    // or using handleSearch function can also improve the performance
-    return () => {
-      clearTimeout(timeoutId); // Clear the timeout if `searchTerm` changes before the timeout completes
-    };
+    // using handleSearch function can also improve the performance
+    handleSearch(searchTerm);
+    // return () => {
+    //   clearTimeout(timeoutId); // Clear the timeout if `searchTerm` changes before the timeout completes
+    // };
   }, [searchTerm]);
 
   const handleSelect = (item: IndivisualItem) => {
@@ -83,7 +84,7 @@ const MyComponent = ({data}: MyComponentProps) => {
     <View style={styles.mainContainer}>
       <View style={styles.searchContainer}>
         <TextInput
-          ref={inputRef}
+          // ref={inputRef}
           onChangeText={setSearchTerm}
           value={searchTerm}
           style={styles.input}
@@ -96,6 +97,7 @@ const MyComponent = ({data}: MyComponentProps) => {
         data={dataSource}
         contentContainerStyle={styles.contentListContainer}
         keyExtractor={item => item.id}
+        initialNumToRender={10}
         renderItem={({item}) => (
           <TouchableOpacity
             onPress={() => handleSelect(item)}
